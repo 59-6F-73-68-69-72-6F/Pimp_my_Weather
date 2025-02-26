@@ -2,7 +2,7 @@ from tkinter import *
 import requests
 
 
-API_KEY = "a09650f906ab71989f0856575cd597c8"
+API_KEY = "XXXXXXXX"
 url = "https://api.openweathermap.org/data/2.5/forecast?q={}&appid={}"
 url_today = "https://api.openweathermap.org/data/2.5/weather?q={}&appid={}"
 
