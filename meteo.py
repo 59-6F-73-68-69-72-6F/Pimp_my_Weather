@@ -2,7 +2,7 @@ from tkinter import *
 import requests
 
 
-API_KEY = "YOUR API KEY"
+API_KEY = "a09650f906ab71989f0856575cd597c8"
 url = "https://api.openweathermap.org/data/2.5/forecast?q={}&appid={}"
 url_today = "https://api.openweathermap.org/data/2.5/weather?q={}&appid={}"
 
@@ -47,59 +47,33 @@ def get_weather(city = None):
     day_4 = {"morning": meteo_hub[13],"afternoon": meteo_hub[14]}
     day_5 = {"morning": meteo_hub[17],"afternoon": meteo_hub[18]}
     
-    day_1_icon = day_1["morning"]["icon"]
-    day_1_date = day_1["morning"]["date"].split(" ")[0]
-    day_1_mor = round((day_1["morning"]["min_temp"])-273.15)
-    day_1_aft = round((day_1["afternoon"]["max_temp"])-273.15)
-    day_1_temp_avg = (day_1_mor+day_1_aft)/2
-    day_1_feel_like = round((day_1["morning"]["feels_like"])-273.15)
-    day_1_humidity = round((day_1["morning"]["humidity"]+day_1["afternoon"]["humidity"])/2,2)
-    day_1_wind = round((day_1["morning"]["wind_speed"]+day_1["afternoon"]["wind_speed"])/2,2)
-    day_1_final = (day_1_date,day_1_mor,day_1_aft,day_1_temp_avg,day_1_feel_like,day_1_wind,day_1_humidity,day_1_icon)
-
-    day_2_icon = day_2["morning"]["icon"]
-    day_2_date = day_2["morning"]["date"].split(" ")[0]
-    day_2_mor = round((day_2["morning"]["min_temp"])-273.15)
-    day_2_aft = round((day_2["afternoon"]["max_temp"])-273.15)
-    day_2_temp_avg = (day_2_mor+day_2_aft)/2
-    day_2_feel_like = round((day_2["morning"]["feels_like"])-273.15)
-    day_2_humidity = round((day_2["morning"]["humidity"]+day_2["afternoon"]["humidity"])/2,2)
-    day_2_wind = round((day_2["morning"]["wind_speed"]+day_2["afternoon"]["wind_speed"])/2,2)
-    day_2_final = (day_2_date,day_2_mor,day_2_aft,day_2_temp_avg,day_2_feel_like,day_2_wind,day_2_humidity,day_2_icon)
-
-    day_3_icon = day_3["morning"]["icon"]
-    day_3_date = day_3["morning"]["date"].split(" ")[0]
-    day_3_mor = round((day_3["morning"]["min_temp"])-273.15)
-    day_3_aft = round((day_3["afternoon"]["max_temp"])-273.15)
-    day_3_temp_avg = (day_3_mor+day_3_aft)/2
-    day_3_feel_like = round((day_3["morning"]["feels_like"])-273.15)
-    day_3_humidity = round((day_3["morning"]["humidity"]+day_3["afternoon"]["humidity"])/2,2)
-    day_3_wind = round((day_3["morning"]["wind_speed"]+day_3["afternoon"]["wind_speed"])/2,2)
-    day_3_final = (day_3_date,day_3_mor,day_3_aft,day_3_temp_avg,day_3_feel_like,day_3_wind,day_3_humidity,day_3_icon)
-
-    day_4_icon = day_4["morning"]["icon"]
-    day_4_date = day_4["morning"]["date"].split(" ")[0]
-    day_4_mor = round((day_4["morning"]["min_temp"])-273.15)
-    day_4_aft = round((day_4["afternoon"]["max_temp"])-273.15)
-    day_4_temp_avg = (day_4_mor+day_4_aft)/2
-    day_4_feel_like = round((day_4["morning"]["feels_like"])-273.15)
-    day_4_humidity = round((day_4["morning"]["humidity"]+day_4["afternoon"]["humidity"])/2,2)
-    day_4_wind = round((day_4["morning"]["wind_speed"]+day_4["afternoon"]["wind_speed"])/2,2)
-    day_4_final = (day_4_date,day_4_mor,day_4_aft,day_4_temp_avg,day_4_feel_like,day_4_wind,day_4_humidity,day_4_icon)
+    def day_gen(day_entry):
+    	day_icon = day_entry["morning"]["icon"]
+    	day_date = day_entry["morning"]["date"].split(" ")[0]
+    	day_mor = round((day_entry["morning"]["min_temp"])-273.15)
+    	day_aft = round((day_entry["afternoon"]["max_temp"])-273.15)
+    	day_temp_avg = (day_mor+day_aft)/2
+    	day_feel_like = round((day_entry["morning"]["feels_like"])-273.15)
+    	day_humidity = round((day_entry["morning"]["humidity"]+day_entry["afternoon"]["humidity"])/2,2)
+    	day_wind = round((day_entry["morning"]["wind_speed"]+day_entry["afternoon"]["wind_speed"])/2,2)
+    	day_final = (day_date,day_mor,day_aft,day_temp_avg,day_feel_like,day_wind,day_humidity,day_icon)
+    	return day_final
+    	
+    day1 = day_gen(day_1)
+    day2 = day_gen(day_2)
+    day3 = day_gen(day_3)
+    day4 = day_gen(day_4)
+    day5 = day_gen(day_5)
     
-    day_5_icon = day_5["morning"]["icon"]
-    day_5_date = day_5["morning"]["date"].split(" ")[0]
-    day_5_mor = round((day_5["morning"]["min_temp"])-273.15)
-    day_5_aft = round((day_5["afternoon"]["max_temp"])-273.15)
-    day_5_temp_avg = (day_5_mor+day_5_aft)/2
-    day_5_feel_like = round((day_5["morning"]["feels_like"])-273.15)
-    day_5_humidity = round((day_5["morning"]["humidity"]+day_5["afternoon"]["humidity"])/2,2)
-    day_5_wind = round((day_5["morning"]["wind_speed"]+day_5["afternoon"]["wind_speed"])/2,2)
-    day_5_final = (day_5_date,day_5_mor,day_5_aft,day_5_temp_avg,day_5_feel_like,day_5_wind,day_5_humidity,day_5_icon)
-    
-    return day_1_final,day_2_final,day_3_final,day_4_final,day_5_final,meteo_today
+    return day1,day2,day3,day4,day5,meteo_today
 
 #----------------SEARCH FUNCTION-------------------
+def update_weather(d_mor,v_mor,d_aft,v_aft,d_feel,v_feel,d_date,v_date):
+    	canvas.itemconfig(d_mor, text=f" Morning\n  {v_mor} C°")
+    	canvas.itemconfig(d_aft, text=f" Afternoon\n  {v_aft} C°")
+    	canvas.itemconfig(d_feel, text=f"Feels Like:{round(v_feel)} C°")
+    	canvas.itemconfig(d_date, text=f"{v_date}")
+
 def search():
     newcity = search_bar.get()
     weather = get_weather(newcity)
@@ -111,50 +85,29 @@ def search():
         canvas.itemconfig(humidity, text=f"Average Humidity: {round(weather[0][6])} %")
         canvas.itemconfig(wind_speed, text=f"Average Wind Speed: {round(weather[0][5])} m/s")
         #----------------TODAY-------------------
-        canvas.itemconfig(today_temp, text=f"{weather[5]["temp"]} C°")
-        canvas.itemconfig(today_min, text=f" Minimal:  {weather[5]["min_temp"]} C°")
-        canvas.itemconfig(today_max, text=f" Maximal:  {weather[5]["max_temp"]} C°")
-        canvas.itemconfig(today_feel_like, text=f"Feels Like:  {weather[5]["feels_like"]} C°")
-        canvas.itemconfig(today_humidity, text=f"Humidity:  {weather[5]["humidity"]} %")
-        canvas.itemconfig(today_wind, text=f"Wind Speed:  {weather[5]["wind_speed"]} m/s")
-        canvas.itemconfig(today_pressure, text=f"Pressure:  {weather[5]["pressure"]} hPa")
-        
+        canvas.itemconfig(today_temp, text=f"{weather[5]['temp']} C°")
+        canvas.itemconfig(today_min, text=f" Minimal:  {weather[5]['min_temp']} C°")
+        canvas.itemconfig(today_max, text=f" Maximal:  {weather[5]['max_temp']} C°")
+        canvas.itemconfig(today_feel_like, text=f"Feels Like:  {weather[5]['feels_like']} C°")
+        canvas.itemconfig(today_humidity, text=f"Humidity:  {weather[5]['humidity']} %")
+        canvas.itemconfig(today_wind, text=f"Wind Speed:  {weather[5]['wind_speed']} m/s")
+        canvas.itemconfig(today_pressure, text=f"Pressure:  {weather[5]['pressure']} hPa")
         #----------------DAY 1-------------------
-
-        canvas.itemconfig(day1_mor, text=f" Morning\n  {weather[0][1]} C°")
-        canvas.itemconfig(day1_aft, text=f" Afternoon\n  {weather[0][2]} C°")
-        canvas.itemconfig(day1_feel_like, text=f"Feels Like:{round(weather[0][4])} C°")
-        canvas.itemconfig(day1_date, text=f"{weather[0][0]}")
+        update_weather(day1_mor,weather[0][1],day1_aft,weather[0][2],day1_feel_like,weather[0][4],day1_date,weather[0][0])
         #----------------DAY 2-------------------
-        
-        canvas.itemconfig(day2_mor, text=f" Morning\n  {weather[1][1]} C°")
-        canvas.itemconfig(day2_aft, text=f" Afternoon\n  {weather[1][2]} C°")
-        canvas.itemconfig(day2_feel_like, text=f"Feels Like:{round(weather[1][4])} C°")
-        canvas.itemconfig(day2_date, text=f"{weather[1][0]}")
+        update_weather(day2_mor,weather[1][1],day2_aft,weather[1][2],day2_feel_like,weather[1][4],day2_date,weather[1][0])
         #----------------DAY 3-------------------
-        
-        canvas.itemconfig(day3_mor, text=f" Morning\n  {weather[2][1]} C°")
-        canvas.itemconfig(day3_aft, text=f" Afternoon\n  {weather[2][2]} C°")
-        canvas.itemconfig(day3_feel_like, text=f"Feels Like:{round(weather[2][4])} C°")
-        canvas.itemconfig(day3_date, text=f"{weather[2][0]}")
+        update_weather(day3_mor,weather[2][1],day3_aft,weather[2][2],day3_feel_like,weather[2][4],day3_date,weather[2][0])
         #----------------DAY 4-------------------
-        
-        canvas.itemconfig(day4_mor, text=f" Morning\n  {weather[3][1]} C°")
-        canvas.itemconfig(day4_aft, text=f" Afternoon\n  {weather[3][2]} C°")
-        canvas.itemconfig(day4_feel_like, text=f"Feels Like:{round(weather[3][4])} C°")
-        canvas.itemconfig(day4_date, text=f"{weather[3][0]}")
+        update_weather(day4_mor,weather[3][1],day4_aft,weather[3][2],day4_feel_like,weather[3][4],day4_date,weather[3][0])
         #----------------DAY 5-------------------
-        
-        canvas.itemconfig(day5_mor, text=f" Morning\n  {weather[4][1]} C°")
-        canvas.itemconfig(day5_aft, text=f" Afternoon\n  {weather[4][2]} C°")
-        canvas.itemconfig(day5_feel_like, text=f"Feels Like:{round(weather[4][4])} C°")
-        canvas.itemconfig(day5_date, text=f"{weather[4][0]}")
-        #------------ICON-------------------
-        img_1["file"] = "/icons/{}.png".format(weather[0][7])
-        img_2["file"] = "/icons/{}.png".format(weather[1][7])
-        img_3["file"] = "/icons/{}.png".format(weather[2][7])
-        img_4["file"] = "/icons/{}.png".format(weather[3][7])
-        img_5["file"] = "/icons/{}.png".format(weather[4][7])
+        update_weather(day5_mor,weather[4][1],day5_aft,weather[4][2],day5_feel_like,weather[4][4],day5_date,weather[4][0])
+        #----------------ICON-------------------
+        img_1["file"] = "/storage/emulated/0/Python/Weather/icons/{}.png".format(weather[0][7])
+        img_2["file"] = "/storage/emulated/0/Python/Weather/icons/{}.png".format(weather[1][7])
+        img_3["file"] = "/storage/emulated/0/Python/Weather/icons/{}.png".format(weather[2][7])
+        img_4["file"] = "/storage/emulated/0/Python/Weather/icons/{}.png".format(weather[3][7])
+        img_5["file"] = "/storage/emulated/0/Python/Weather/icons/{}.png".format(weather[4][7])
         img_today["file"] = "/icons/{}.png".format(weather[5]["icon"])
         
     except requests.exceptions.HTTPError:
@@ -199,14 +152,14 @@ def on_enter_day_5(event):
 
 def press_return(event):
     search()
-    
+	   
 #----------------UI---------------------
 
 window = Tk()
 window.title("Pimp my Weather")
 window.minsize(width=1095,height=695)
 window.maxsize(width=1095,height=695)
-background = PhotoImage(file="/BluePrint.png")
+background = PhotoImage(file="/storage/emulated/0/Python/Weather/BluePrint.png")
 window.bind("<Return>", press_return)
 
 
@@ -238,6 +191,7 @@ day1_aft = canvas.create_text(165,555,text=f" Afternoon\n--- C°",font=("Arial",
 day1_feel_like = canvas.create_text(170,610,text=f"Feels Like: --- C°",font=("Arial",12,"bold"),fill="light grey")
 day1_date = canvas.create_text(170,640,text=f"Date ",font=("Arial",12,"bold"),fill="light grey")
 day1_id = canvas.create_text(170,435,text=f"",font=("Arial",50,"bold"),fill="light grey")
+
 #----------------DAY 2-------------------
 day2_mor = canvas.create_text(355,500,text=f" Morning\n--- C°",font=("Arial",16,"bold"),fill="light grey")
 day2_aft = canvas.create_text(355,555,text=f" Afternoon\n--- C°",font=("Arial",16,"bold"),fill="light grey")
