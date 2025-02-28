@@ -3,7 +3,7 @@ import requests
 from the_weather import Weather
 
 COLOR_TEXT = "light grey"
-ICON = "/Users/Yoshiro/PycharmProjects/100 Days of Code - The Complete Python Pro Bootcamp/Day-35/icons/{}.png"
+ICON = "/icons/{}.png"
 
 #----------------SEARCH FUNCTION-------------------
 def update_weather(d_mor,v_mor,d_aft,v_aft,d_feel,v_feel,d_date,v_date):
@@ -72,7 +72,7 @@ window = Tk()
 window.title("Pimp my Weather")
 window.minsize(width=1095,height=695)
 window.maxsize(width=1095,height=695)
-background = PhotoImage(file="/Users/Yoshiro/PycharmProjects/100 Days of Code - The Complete Python Pro Bootcamp/Day-35/BluePrint.png")
+background = PhotoImage(file="/BluePrint.png")
 window.bind("<Return>", press_return)
 canvas = Canvas(width=1100,height=700)
 canvas.create_image(550,350,image=background)
