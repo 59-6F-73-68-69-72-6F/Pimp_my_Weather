@@ -1,13 +1,30 @@
 import requests
-import tkinter as tk
+from PyQt6.QtCore import QObject, pyqtSignal
+from dotenv import load_dotenv
+import os
 
-API_KEY = "YOUR API"
+load_dotenv(override=True)
+API_KEY = os.getenv("API_KEY")
+
 class Weather:
 
     def __init__(self):
         self.url = "https://api.openweathermap.org/data/2.5/forecast?q={}&appid={}"
         self.url_today = "https://api.openweathermap.org/data/2.5/weather?q={}&appid={}"
     
+    @staticmethod
+    def day_gen(day_entry):
+        day_icon = day_entry["morning"]["icon"]
+        day_date = day_entry["morning"]["date"].split(" ")[0]
+        day_mor = round((day_entry["morning"]["min_temp"]) - 273.15)
+        day_aft = round((day_entry["afternoon"]["max_temp"]) - 273.15)
+        day_temp_avg = (day_mor + day_aft) / 2
+        day_feel_like = round((day_entry["morning"]["feels_like"]) - 273.15)
+        day_humidity = round((day_entry["morning"]["humidity"] + day_entry["afternoon"]["humidity"]) / 2, 2)
+        day_wind = round((day_entry["morning"]["wind_speed"] + day_entry["afternoon"]["wind_speed"]) / 2, 2)
+        day_final = (day_date, day_mor, day_aft, day_temp_avg, day_feel_like, day_wind, day_humidity, day_icon)
+        return day_final
+
     def get_weather_forecast(self,city):
         self.result = requests.get(self.url.format(city,API_KEY))
         self.result.raise_for_status()
@@ -33,25 +50,11 @@ class Weather:
         self.day_4_dic = {"morning": self.meteo_hub[13],"afternoon": self.meteo_hub[14]}
         self.day_5_dic = {"morning": self.meteo_hub[17],"afternoon": self.meteo_hub[18]}
         
-        @staticmethod
-        def day_gen(day_entry):
-            day_icon = day_entry["morning"]["icon"]
-            day_date = day_entry["morning"]["date"].split(" ")[0]
-            day_mor = round((day_entry["morning"]["min_temp"])-273.15)
-            day_aft = round((day_entry["afternoon"]["max_temp"])-273.15)
-            day_temp_avg = (day_mor + day_aft)/2
-            day_feel_like = round((day_entry["morning"]["feels_like"])-273.15)
-            day_humidity = round((day_entry["morning"]["humidity"]+day_entry["afternoon"]["humidity"])/2,2)
-            day_wind = round((day_entry["morning"]["wind_speed"]+day_entry["afternoon"]["wind_speed"])/2,2)
-            day_final = (day_date,day_mor,day_aft,day_temp_avg,day_feel_like,day_wind,day_humidity,day_icon)
-            return day_final
-
-        self.day1 = day_gen(self.day_1_dic)
-        self.day2 = day_gen(self.day_2_dic)
-        self.day3 = day_gen(self.day_3_dic)
-        self.day4 = day_gen(self.day_4_dic)
-        self.day5 = day_gen(self.day_5_dic)
-        
+        self.day1 = self.day_gen(self.day_1_dic)
+        self.day2 = self.day_gen(self.day_2_dic)
+        self.day3 = self.day_gen(self.day_3_dic)
+        self.day4 = self.day_gen(self.day_4_dic)
+        self.day5 = self.day_gen(self.day_5_dic)
         return self.day1,self.day2,self.day3,self.day4,self.day5
     
     def get_weather_today(self,city=None):
@@ -69,5 +72,23 @@ class Weather:
             "pressure": self.data_today["main"]["pressure"],
             "icon": self.data_today["weather"][0]["icon"],    
         }
-        
         return self.meteo_today
+    
+    
+class WeatherPicker(QObject):
+    weather_ready = pyqtSignal(dict, list)
+    
+    def __init__(self):
+        super().__init__()
+        self.fetcher = Weather()
+        
+    def search(self, city):
+        try:
+            weather_today = self.fetcher.get_weather_today(city)
+            weather_forecast = self.fetcher.get_weather_forecast(city)
+            self.weather_ready.emit(weather_today, weather_forecast)
+            
+        except requests.exceptions.HTTPError as e:
+            print(f"Error: {e}")
+        
+        
