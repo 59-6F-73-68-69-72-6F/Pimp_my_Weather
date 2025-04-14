@@ -1,4 +1,4 @@
 # Pimp_my_Weather
-Wheater Application
+GUI weather Application based on QT.
 
-Pimp My Weather is a GUI weather App.
+
