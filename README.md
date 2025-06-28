@@ -1,4 +1,4 @@
-# Pimp_my_Weather
+# Pimp_my_Weather⛅
 <h3>Pimp My Weather is a desktop weather application designed to provide users with comprehensive and up-to-date weather information.</h3>
 
 It features a clean, graphical user interface where you can easily look up weather conditions for any city in the world.
