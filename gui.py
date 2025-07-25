@@ -3,12 +3,14 @@ from PyQt6.QtGui import QFont,QPixmap
 from PyQt6.QtCore import QSize,pyqtSignal
 import update_ui
 import requests
+import os
 
 
 
 COLOR = "#dedbd2"
 FONT_SIZE = 15
 FONT_WEIGHT = 600
+SCRIPT_PATH = script_path = os.path.dirname(os.path.abspath(__file__))
 
 class WeatherAppGUI(QWidget):
     # Signal to request a search
@@ -25,7 +27,7 @@ class WeatherAppGUI(QWidget):
         self.setWindowTitle("Pimp My Weather")
         # Set Background
         self.background = QLabel(self)
-        self.img_background = QPixmap("images/BluePrint.png")
+        self.img_background = QPixmap(f"{SCRIPT_PATH}\images\BluePrint.png")
         self.background.setPixmap(self.img_background)
         
         # Set City Title
