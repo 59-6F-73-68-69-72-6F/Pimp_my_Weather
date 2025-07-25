@@ -4,7 +4,8 @@ import os
 COLOR = "#dedbd2"
 FONT_SIZE = 15
 FONT_WEIGHT = 600
-ICON_PATH = "icons/{}.png"
+SCRIPT_PATH = script_path = os.path.dirname(os.path.abspath(__file__))
+ICON_PATH = "\icons\{}.png"
 
 
 def _reset_forecast_day_panel(d_mor, d_aft, d_feel, d_date):
@@ -78,7 +79,7 @@ def update_forecast_panel(window, forecast_data):
     for i in range(len(forecast_icons)):
         if i < len(forecast_data):
             icon_code = forecast_data[i][7] 
-            icon_path = ICON_PATH.format(icon_code)
+            icon_path = SCRIPT_PATH + "/" + ICON_PATH.format(icon_code)
             if os.path.exists(icon_path):
                 forecast_icons[i].setPixmap(QPixmap(icon_path))
             else:
@@ -102,5 +103,4 @@ def update_today(window,weather_today):
         window.icon_today.setPixmap(QPixmap(icon_path))
     else:
         window.icon_today.setPixmap(QPixmap(""))
-    
     
